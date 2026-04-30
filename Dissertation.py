@@ -139,7 +139,7 @@ References:
 '''
 def getData():
     endpoint = "https://graph.mapillary.com/images"
-    accessToken = "MLY|9137912079588378|53aa91e9cb13c1285b46b0a97feea1e7" #personal token from the API website
+    accessToken = "INSERT MAPILLARY TOKEN HERE" #personal token from the API website
     fields = "id,computed_geometry,thumb_2048_url" #fields to fetch
     
     #BBox1 captures most of uk and ireland
@@ -839,11 +839,14 @@ if __name__ == '__main__':
         torch.cuda.manual_seed_all(random_seed)
        
     '''Select which task to perform:'''
-    #task = "preprocess"
-    #task = "train"
-    task = "predict"
+    print("\nSelect mode:")
+    print("1 - Preprocess")
+    print("2 - Train")
+    print("3 - Predict")
+    task = int(input("\nEnter choice (1,2,3): "))
 
-    if task == "preprocess":
+    # preprocess
+    if task == 1: 
         #generate data
         data = getData()
         data = data[:350] #limit data to be processed in one go
@@ -964,13 +967,16 @@ if __name__ == '__main__':
         del model_BERT, model_ViT  # Delete the model objects
         torch.cuda.empty_cache()  # Clear the GPU memory cache
         
-        
-    if task == "train":  
+    # train
+    if task == 2:  
         '''Select baseline or blurred'''
-        #model = "baseline"
-        model = "blurred"
-        
-        if model == "baseline":
+        print("\nSelect baseline or blurred:")
+        print("1 - baseline")
+        print("2 - blurred")
+        model = int(input("\nEnter choice (1,2): "))
+
+        # baseline
+        if model == 1:
             print("Collecting data.")
             try:
                 with open("data.pkl", "rb") as f:
@@ -984,7 +990,8 @@ if __name__ == '__main__':
             trainModel(fusedEncodings, targetCoordinates, "baselineLVLM")
             print(f"[{datetime.now()}] baseline model trained successfully.\n")
             
-        elif model == "blurred":
+        # blurred
+        elif model == 2:
             
             print("Collecting dataBlurred.")
             try:
@@ -1000,20 +1007,23 @@ if __name__ == '__main__':
             print(f"[{datetime.now()}] blurred model trained successfully.\n")
         
     
-    if task == "predict":
+    # predict
+    if task == 3:
         '''Select multiple or singular'''
-        mode = "multiple"
-        #mode = "singular"
+        print("\nSelect multiple or singular:")
+        print("1 - multiple")
+        print("2 - singular")
+        mode = int(input("\nEnter choice (1,2): "))
         
         #multiple fetches multiple items from Mapillary
-        if mode == "multiple":
+        if mode == 1:
             #generate new data to predict
             data = getData()
             print("Data loaded successfully.\n")
             data = data[:10]
             
         #singular allows a user to provide an image
-        if mode == "singular":
+        if mode == 2:
             imagename = "sample.png" #user image
             data = []
             
@@ -1036,7 +1046,7 @@ if __name__ == '__main__':
         #Jaided AI. 2024. EasyOCR (version 1.7.2). [Online]. [Accessed 8 February 2025]. Available from: https://github.com/JaidedAI/EasyOCR
         reader_OCR = easyocr.Reader(['en'])
         
-        if mode == "singular":
+        if mode == 2:
             #add captions to dictionaries
             assignCaption(data, reader_OCR, model_BLIP2, processor_BLIP2, singular=True)
             print(f"[{datetime.now()}] data captions assigned.\n")
