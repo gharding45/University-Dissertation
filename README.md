@@ -3,7 +3,7 @@ Final-year machine learning dissertation (First Class Honours).
 
 A PyTorch-based multimodal Large Vision Language Model (LVLM) that predicts UK image locations from street view images, while evaluating the impact of privacy-preserving techniques such as image and text blurring.
 
-Demonstrates real-world multimodal AI system design with a focus on responsible machine learning development.
+This project demonstrates real-world multimodal AI system design with a focus on responsible machine learning development.
 
 ### Tech Stack
 PyTorch, Transformers, ViT, BERT, BLIP-2, EasyOCR, OpenCV, CUDA
